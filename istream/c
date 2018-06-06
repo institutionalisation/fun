@@ -6,18 +6,23 @@ struct istream {
 		flush(); }
 	void flush() {
 		cap= (u)syscall(0,fd,(u ll)buf.x,buf.size);
-		t = 0;
+		// ::write(1,(void*)"buffer:",7);
+		// ::write(1,buf.x,buf.size);
+		// ::write(1,(void*)"|" nl,2);
+		t= 0;
 	}
 	char get() {
-		char a = buf[t++];
-		if(t==cap)
+		char a = peek();
+		if(++t==cap)
 			flush();
 		return a;
 	}
 	char peek() {
-		return buf[t]; }
+		if(!cap)
+			return 0;
+		return buf[t];
+	}
 	tm<tn ...T>
 	std::tuple<wrap_t<T>...> get() {
-		return std::make_tuple( wrap_t<T>(this)... );
-	}
+		return std::tuple<wrap_t<T>...>{wrap_t<T>(this)...}; }
 };

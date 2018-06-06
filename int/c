@@ -16,34 +16,42 @@ void Int<A>::write(ostream& a) {
 }
 tm<tn A>
 Int<A>::Int(istream& a) {
-	bool negative = false;
-	// if(negative= a.peek()=='-')
-	// 	a.get<char>();
+	// ::write(1,(void*)"read int" nl,9);
 	x=0;
 	for(char c;;) {
 		c = a.peek();
+		// ::write(1,(void*)"peek:" nl,5);
+		// ::write(1,(void*)&c,1);
+		// ::write(1,(void*)nl,1);
 		switch(c) {
 			case ' ':
 			case '\t':
 			case '\n':
 			case '\r':
 				a.get();
+				// ::write(1,(void*)"whitespace" nl,11);
 				continue;
 			default:;
 		}
 		break;
 	}
+	bool negative = false;
+	if(negative= a.peek()=='-')
+		a.get();
+	// ::write(0,(void*)"actual" nl,7);
 	for(;;) {
-		char c = a.get();
+		char c = a.peek();
 		if(c<'0'||'9'<c) {
 			if(x==0)
 				x=c;
 			break;
 		}
+		a.get();
 		x *= 10;
 		x += c-'0';
 		
 	}
 	if(negative)
 		x=-x;
+	// ::write(0,(void*)"done" nl,5);
 }
