@@ -18,12 +18,17 @@ struct istream;
 asm volatile(".globl _start");
 extern "C"
 void _start() {
-	ostream out(1,mem(char,5));
-	out("Hello, World!" nl);
+	ostream out(1,mem(char,100));
+	istream in(0,mem(char,100));
+	auto[a] = in.get<u>();
+	out("a:",a,nl);
 	out.flush();
-	istream in(0,mem(char,5));
-	auto[a] = in.get<char>();
-	out(a,nl);
+	for(;a.x--;) {
+		auto[b,c] = in.get<u,u>();
+		out("b:",b,",c:",c,nl);
+		//out(b.x+c.x,nl);
+		out.flush();
+	}
 	out.flush();
 	exit(0);
 }

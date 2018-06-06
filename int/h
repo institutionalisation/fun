@@ -1,6 +1,7 @@
 tm<tn A>
 struct Int {
 	A x;
+	explicit Int(istream&);
 	explicit Int(A x): x(x) {}
 	void write(ostream&);
 };

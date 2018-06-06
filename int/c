@@ -1,5 +1,9 @@
 tm<tn A>
 void Int<A>::write(ostream& a) {
+	if(!x) {
+		a('0');
+		return;
+	}
 	static char b[20];
 	A c = x;
 	u i;
@@ -7,5 +11,39 @@ void Int<A>::write(ostream& a) {
 		b[i] = c%10+'0';
 		c/=10;
 	}
-	a(string(20-i,b+i));
+	for(;i<20;++i)
+		a(b[i]);
+}
+tm<tn A>
+Int<A>::Int(istream& a) {
+	bool negative = false;
+	// if(negative= a.peek()=='-')
+	// 	a.get<char>();
+	x=0;
+	for(char c;;) {
+		c = a.peek();
+		switch(c) {
+			case ' ':
+			case '\t':
+			case '\n':
+			case '\r':
+				a.get();
+				continue;
+			default:;
+		}
+		break;
+	}
+	for(;;) {
+		char c = a.get();
+		if(c<'0'||'9'<c) {
+			if(x==0)
+				x=c;
+			break;
+		}
+		x *= 10;
+		x += c-'0';
+		
+	}
+	if(negative)
+		x=-x;
 }

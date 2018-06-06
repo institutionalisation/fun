@@ -1,20 +1,21 @@
 struct istream {
 	const u fd;
-	size_t t;
+	size_t t,cap;
 	chunk<char> buf;
 	istream(u fd,chunk<char> buf): fd(fd),buf(buf) {
-		t = buf.size; }
+		flush(); }
 	void flush() {
-		syscall(0,0,(u ll)buf.x,buf.size);
+		cap= (u)syscall(0,fd,(u ll)buf.x,buf.size);
 		t = 0;
 	}
 	char get() {
-		if(t==buf.size) {
+		char a = buf[t++];
+		if(t==cap)
 			flush();
-			t = 0;
-		}
-		return buf[t++];
+		return a;
 	}
+	char peek() {
+		return buf[t]; }
 	tm<tn ...T>
 	std::tuple<wrap_t<T>...> get() {
 		return std::make_tuple( wrap_t<T>(this)... );
