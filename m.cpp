@@ -1,3 +1,4 @@
+#include"tuple"
 #include"type_traits"
 #include"base/c"
 struct ostream;
@@ -20,5 +21,7 @@ void _start() {
 	ostream out(1,mem(char,5));
 	out("Hello, World!" nl);
 	out.flush();
+	istream in(0,mem(char,5));
+	auto[a] = in.get<char>();
 	exit(0);
 }

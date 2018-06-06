@@ -7,7 +7,7 @@
 #define tm template
 #define this (*this)
 #define ns namespace
-using size_t = u ll;
+//using size_t = u ll;
 #pragma GCC push_options
 #pragma GCC optimize("O0")
 u ll syscall(u ll a,u ll b,u ll c=0,u ll d=0,u ll e=0,u ll f=0,u ll g=0) {

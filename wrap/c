@@ -1,13 +1,13 @@
 tm<tn A>
 static wrap_t<A> wrap_helper(tn std::enable_if<
-	std::negation<std::is_base_of<no_wrap,wrap_t<A>>>::value,
+	std::negation<std::is_base_of<A,wrap_t<A>>>::value,
 	A>::type a
 ) {
 	return wrap_t<A>(a);
 }
 tm<tn A>
 static A wrap_helper(tn std::enable_if<
-	std::is_base_of<no_wrap,wrap_t<A>>::value,
+	std::is_base_of<A,wrap_t<A>>::value,
 	A>::type a
 ) {
 	return a;

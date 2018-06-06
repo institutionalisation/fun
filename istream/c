@@ -16,7 +16,7 @@ struct istream {
 		return buf[t++];
 	}
 	tm<tn ...T>
-	std::tuple<T...> get() {
-		return { ((wrap<T>)(this))... };
+	std::tuple<wrap_t<T>...> get() {
+		return std::make_tuple( wrap_t<T>(this)... );
 	}
 };
