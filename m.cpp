@@ -23,5 +23,7 @@ void _start() {
 	out.flush();
 	istream in(0,mem(char,5));
 	auto[a] = in.get<char>();
+	out(a,nl);
+	out.flush();
 	exit(0);
 }
