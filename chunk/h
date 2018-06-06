@@ -1,0 +1,32 @@
+tm<tn A>
+struct chunk {
+	size_t size;
+	A* x;
+	A& operator[](size_t i) {
+		return x[i]; }
+	chunk(size_t size,A* x) {
+		this.size = size;
+		this.x = x;
+	}
+};
+#define mem(t,s)\
+	chunk<t>(s,(t*)__builtin_alloca(s*sizeof(t)+sizeof(size_t)))
+tm<>
+struct chunk<char> {
+	size_t size;
+	char* x;
+	char& operator[](size_t i) { return x[i]; }
+	explicit chunk<char>(const char* str) {
+		size = strlen(str);
+		x = (char*)str;
+	}
+	chunk(size_t size,char* x) {
+		this.size = size;
+		this.x = x;
+	}
+	void write(ostream& a);
+};
+tm<>
+struct wrap_t<const char*> : chunk<char> {
+	using chunk<char>::chunk; };
+using string = chunk<char>;

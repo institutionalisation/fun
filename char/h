@@ -1,0 +1,9 @@
+struct Char {
+	char x;
+	Char(char a): x(a) {}
+	Char(istream& a);
+	void write(ostream&);
+};
+tm<>
+struct wrap_t<char> : public Char {
+	using Char::Char; };

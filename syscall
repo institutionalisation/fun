@@ -1,0 +1,2 @@
+#!/bin/bash
+grep --color '#define __NR_'"$1 "'[0-9]\{1,10\}' < /usr/include/asm/unistd_64.h #| grep --only '[0-9]\{0,10\}'

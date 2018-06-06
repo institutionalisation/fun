@@ -1,0 +1,4 @@
+void Char::write(ostream& a) {
+	a.put(x); }
+Char::Char(istream& a) {
+	x = a.get(); }

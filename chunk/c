@@ -1,0 +1,4 @@
+void chunk<char>::write(ostream& a) {
+	for(u i = 0; i < size; ++i)
+		a.put(x[i]);
+}

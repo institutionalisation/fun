@@ -1,0 +1,2 @@
+#!/bin/bash
+gcc -fno-enforce-eh-specs -nostartfiles -nostdlib -fno-stack-protector -fno-rtti -xc++ -std=c++17 -Wall m.cpp -o m "$@"

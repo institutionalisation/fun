@@ -1,0 +1,6 @@
+struct fstream {
+	const u fd;
+	size_t t=0;
+	chunk<char> buf;
+	fstream(u fd,chunk<char> buf): fd(fd),buf(buf) {}
+};

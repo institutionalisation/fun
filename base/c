@@ -1,0 +1,67 @@
+#define u unsigned
+#define s signed
+#define ll long long
+#define s signed
+#define tn typename
+#define nl "\n"
+#define tm template
+#define this (*this)
+#define ns namespace
+using size_t = u ll;
+#pragma GCC push_options
+#pragma GCC optimize("O0")
+u ll syscall(u ll a,u ll b,u ll c=0,u ll d=0,u ll e=0,u ll f=0,u ll g=0) {
+    register u ll _a asm("rax") = a;
+    register u ll _b asm("rdi") = b;
+    register u ll _c asm("rsi") = c;
+    register u ll _d asm("rdx") = d;
+    register u ll _e asm("r10") = e;
+    register u ll _f asm("r8") = f;
+    register u ll _g asm("r9") = g;
+    asm volatile("syscall\n"
+        :::
+        "rcx","r11");
+    register u ll h asm("eax");
+    return h;
+}
+#pragma GCC pop_options
+extern "C"
+void exit(s code) {
+	syscall(60,code); }
+void abort() {
+	exit(1); }
+static void assert(bool a) {
+	if(!a) abort(); }
+static void* mremap(void* old,size_t old_size,size_t new_size,s flags) {
+	return (void*)syscall(25,(u ll)old,(u ll)old_size,(u ll)new_size,(u ll)flags); }
+s open(const char* path, s oflag) {
+	return (s)syscall((u ll)path,(u ll)oflag); }
+static size_t write(u fd,void* data,size_t nbyte) {
+	return (size_t)syscall(1,fd,(u ll)data,nbyte); }
+extern char _end;
+void* prog_break = &_end;
+static void* sbrk(ll diff) {
+	void* old_break = prog_break;
+	prog_break = (void*)syscall(12,(u ll)prog_break+100000);
+	return old_break;
+}
+static void* memcpy(void* dest,const void* src,size_t n) {
+	for(size_t i = 0; i < n; ++i)
+		((char*)dest)[i] = ((char*)src)[i];
+	return dest;
+}
+static void* memset(void *dest,char c,size_t n) {
+	for(size_t i = 0; i < n; ++i)
+		((char*)dest)[i] = c;
+	return dest;
+}
+static constexpr size_t strlen(const char* a) {
+	size_t size = 0;
+	for(;a[size++];);
+	return size-1;
+}
+tm<tn T,tn=decltype(T()<T())>
+static T& min(T& a,T& b) {
+	return a<b ? a:b; }
+extern "C"
+void __cxa_pure_virtual() { exit(1); } 

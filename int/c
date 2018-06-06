@@ -1,0 +1,11 @@
+tm<tn A>
+void Int<A>::write(ostream& a) {
+	static char b[20];
+	A c = x;
+	u i;
+	for(i = 19; c; --i) {
+		b[i] = c%10+'0';
+		c/=10;
+	}
+	a(string(20-i,b+i));
+}

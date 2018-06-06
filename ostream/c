@@ -1,0 +1,14 @@
+struct ostream : public fstream {
+	using fstream::fstream;
+	void flush() {
+		write(fd,buf.x,t);
+		t = 0;
+	}
+	__attribute__((always_inline)) void put(const char a) {
+		if(t==buf.size) flush();
+		buf.x[t++] = a;
+	}
+	tm<tn ...T>
+	void operator()(T... a) {
+		(s[]){ (wrap(a).write(this),0)... }; }
+};

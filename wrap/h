@@ -1,0 +1,3 @@
+struct no_wrap {};
+tm<tn A>
+struct wrap_t : public no_wrap {};
