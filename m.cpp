@@ -21,10 +21,11 @@ void _start() {
 	ostream out(1,mem(char,100));
 	istream in(0,mem(char,100));
 	auto[a] = in.get<u>();
-	out("a:",a,nl); out.flush();
+	//out("a:",a,nl); out.flush();
 	for(;a.x--;) {
-		auto[b,c] = in.get<u,u>();
-		out("b:",b,",c:",c,nl); out.flush();
+		auto[b,c] = in.get<s,s>();
+		//out("b:",b,",c:",c,nl); out.flush();
+		out(b.x+c.x,nl); out.flush();
 	}
 	out.flush();
 	exit(0);

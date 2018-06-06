@@ -1,25 +1,27 @@
-struct istream {
-	const u fd;
-	size_t t,cap;
-	chunk<char> buf;
-	istream(u fd,chunk<char> buf): fd(fd),buf(buf) {
-		flush(); }
+struct istream : public fstream {
+	using fstream::fstream;
+	size_t cap=0;
+	bool empty= 0;
 	void flush() {
-		cap= (u)syscall(0,fd,(u ll)buf.x,buf.size);
+		cap= (size_t)syscall(0,fd,(u ll)buf.x,buf.size);
 		// ::write(1,(void*)"buffer:",7);
 		// ::write(1,buf.x,buf.size);
 		// ::write(1,(void*)"|" nl,2);
+		empty= cap==0;
 		t= 0;
 	}
 	char get() {
 		char a = peek();
-		if(++t==cap)
-			flush();
+		++t;
 		return a;
 	}
 	char peek() {
-		if(!cap)
+		if(t==cap)
+			flush();
+		if(empty) {
+			exit(99);
 			return 0;
+		}
 		return buf[t];
 	}
 	tm<tn ...T>

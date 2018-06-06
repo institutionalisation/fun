@@ -1,18 +1,30 @@
 tm<tn A>
-void Int<A>::write(ostream& a) {
+void int_write_helper(ostream& a,tn std::enable_if<std::is_unsigned<A>::value,A>::type x) {
 	if(!x) {
 		a('0');
 		return;
 	}
-	static char b[20];
+	char b[20];
 	A c = x;
 	u i;
 	for(i = 19; c; --i) {
 		b[i] = c%10+'0';
 		c/=10;
 	}
+	++i;
 	for(;i<20;++i)
 		a(b[i]);
+}
+tm<tn A>
+void int_write_helper(ostream& a,tn std::enable_if<std::is_signed<A>::value,A>::type x) {
+	bool neg;
+	if(neg= x<0)
+		a('-');
+	int_write_helper<tn std::make_unsigned<A>::type>(a,tn std::make_unsigned<A>::type(neg?-x:x));
+}
+tm<tn A>
+void Int<A>::write(ostream& a) {
+	int_write_helper<A>(a,x);
 }
 tm<tn A>
 Int<A>::Int(istream& a) {
