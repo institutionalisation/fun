@@ -53,11 +53,8 @@ Int<A>::Int(istream& a) {
 	// ::write(0,(void*)"actual" nl,7);
 	for(;;) {
 		char c = a.peek();
-		if(c<'0'||'9'<c) {
-			if(x==0)
-				x=c;
+		if(c<'0'||'9'<c)
 			break;
-		}
 		a.get();
 		x *= 10;
 		x += c-'0';

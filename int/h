@@ -1,8 +1,9 @@
 tm<tn A>
 struct Int {
 	A x;
+	operator A&() { return x; }
+	Int(A x): x(x) {}
 	explicit Int(istream&);
-	explicit Int(A x): x(x) {}
 	void write(ostream&);
 };
 tm<> struct wrap_t<u> : public Int<u> {

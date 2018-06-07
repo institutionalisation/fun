@@ -18,15 +18,21 @@ struct istream;
 asm volatile(".globl _start");
 extern "C"
 void _start() {
-	ostream out(1,mem(char,100));
-	istream in(0,mem(char,100));
+	ostream out(1,mem(char,40000));
+	istream in(0,mem(char,40000));
 	auto[a] = in.get<u>();
-	//out("a:",a,nl); out.flush();
-	for(;a.x--;) {
-		auto[b,c] = in.get<s,s>();
-		//out("b:",b,",c:",c,nl); out.flush();
-		out(b.x+c.x,nl); out.flush();
+	auto freq = mem(u,201);
+	for(u i = 0; i < 201; ++i)
+		freq[i]= 0;
+	for(;a--;) {
+		auto[b] = in.get<s>();
+		++freq[b+100];
 	}
+	u max = 0;
+	for(u i = 1; i < 201; ++i)
+		if(freq[max]<freq[i])
+			max= i;
+	out((s)max-100);
 	out.flush();
 	exit(0);
 }
