@@ -1,12 +1,25 @@
 #include"tuple"
 #include"type_traits"
+
+#define u unsigned
+#define s signed
+#define ll long long
+#define tn typename
+#define nl "\n"
+#define tm template
+#define this (*this)
+#define ns namespace
+
 #include"base/c"
+#include"wrap/h"
 struct ostream;
 struct istream;
-#include"wrap/h"
-#include"chunk/h"
-#include"char/h"
 #include"int/h"
+#include"char/h"
+#include"chunk/h"
+
+
+
 #include"wrap/c"
 #include"fstream/c"
 #include"ostream/c"
@@ -14,25 +27,54 @@ struct istream;
 #include"chunk/c"
 #include"char/c"
 #include"int/c"
+#include"queue/c"
+#define op operator
+#define order op<
 
-asm volatile(".globl _start");
+tm<tn A>
+void merge(chunk<A> arr,u a,u b,u c) {
+	chunk<A> buf = mem(A,arr.size);
+	int i = a, j = b, bi = 0;
+	for(; i < b && j < c ;)
+		if(arr[i]<arr[j])
+			buf[bi++]= arr[i++];
+		else
+			buf[bi++]= arr[j++];
+	for(; i < b; ++i) buf[bi++] = arr[i];
+	for(; j < c; ++j) buf[bi++] = arr[j];
+	for(int k = 0; k < bi; ++k) arr[k+a] = buf[k];
+}
+tm<tn A>
+void mergesort(chunk<A> arr) {
+	for(u i = 1; i*2 <= arr.size; i *= 2)
+		for(u j = 0; j+i*2 <= arr.size; j += i*2)
+			merge(arr,j,j+i,j+i*2);
+	for(u j = arr.size - arr.size.lsb(),
+			i = j - j.lsb();
+			j != 0; j = i, i -= i.lsb()
+		 )
+		merge(arr,i,j,arr.size);
+}
+tm<tn A>
+void sort(chunk<A> a) {
+	mergesort(a);
+}
+struct mud {
+	u i,t;
+};
+bool order(mud a,mud b) {
+	return a.i<b.i; }
+asm(".globl _start");
 extern "C"
 void _start() {
-	ostream out(1,mem(char,40000));
-	istream in(0,mem(char,40000));
-	auto[a] = in.get<u>();
-	auto freq = mem(u,201);
-	for(u i = 0; i < 201; ++i)
-		freq[i]= 0;
-	for(;a--;) {
-		auto[b] = in.get<s>();
-		++freq[b+100];
-	}
-	u max = 0;
-	for(u i = 1; i < 201; ++i)
-		if(freq[max]<freq[i])
-			max= i;
-	out((s)max-100);
+	ostream out(1,mem(Char,40000));
+	istream in(0,mem(Char,40000));
+	out("check" nl); out.flush(); exit(0);
+	auto[n,m,j]= in.get<u,u,u>();
+	auto muds= mem(mud,m);
+	for(u i=0; i<m; ++i)
+		std::tie(muds[i].i,muds[i].t)= in.get<u,u>();
+	sort(muds);
 	out.flush();
 	exit(0);
 }

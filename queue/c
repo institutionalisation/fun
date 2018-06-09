@@ -1,0 +1,13 @@
+tm<tn A>
+struct queue {
+	chunk<A> buf;
+	size_t r=0,t=0;
+	queue(chunk<A> a): buf(buf) {}
+	void push(A a) {
+		buf[t++]= a;
+		if(buf.size<t)
+			t=0;
+	}
+	A pop() {
+		return buf[buf.size<r++ ? r=0: r];}
+};

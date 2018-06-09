@@ -1,5 +1,6 @@
 struct Char {
 	char x;
+	operator char&() { return x; }
 	Char(char a): x(a) {}
 	Char(istream& a);
 	void write(ostream&);

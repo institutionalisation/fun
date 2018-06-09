@@ -1,10 +1,26 @@
 tm<tn A>
-struct Int {
+struct Int_base {
 	A x;
 	operator A&() { return x; }
-	Int(A x): x(x) {}
-	explicit Int(istream&);
+	Int_base(A x): x(x) {}
+	explicit Int_base(): x(0) {}
+	explicit Int_base(istream&);
 	void write(ostream&);
+	A lsb() {
+		auto a= (tn std::make_signed<A>::type)x;
+		return a&-a; }
+};
+tm<tn A>
+struct Int : public Int_base<A> {
+	using Int_base<A>::Int_base; };
+#define u unsigned
+#define s signed
+#define ll long long
+tm<>
+struct Int<u ll> : public Int_base<u ll> {
+	using Int_base<u ll>::Int_base;
+	tm<tn A>
+	Int(A* a): Int_base((u ll)a) {}
 };
 tm<> struct wrap_t<u> : public Int<u> {
 	using Int<u>::Int; };
@@ -18,3 +34,14 @@ tm<> struct wrap_t<u short> : public Int<u short> {
 	using Int<u short>::Int; };
 tm<> struct wrap_t<short> : public Int<short> {
 	using Int<short>::Int; };
+const u U_MAX= 0xffffffff;
+const s S_MAX= 0x7fffffff;
+const s S_MIN= -0x8000000;
+// oh boi it's getting reel lads
+#undef u
+#define u Int<unsigned>
+#undef s
+#define s Int<signed>
+#undef ll
+#define ul Int<unsigned long long>
+#define sl Int<signed long long>

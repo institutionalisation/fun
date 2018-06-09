@@ -1,6 +1,6 @@
 tm<tn A>
 struct chunk {
-	size_t size;
+	u size;
 	A* x;
 	A& operator[](size_t i) {
 		return x[i]; }
@@ -8,25 +8,32 @@ struct chunk {
 		this.size = size;
 		this.x = x;
 	}
-};
-#define mem(t,s)\
-	chunk<t>(s,(t*)__builtin_alloca(s*sizeof(t)+sizeof(size_t)))
-tm<>
-struct chunk<char> {
-	size_t size;
-	char* x;
-	char& operator[](size_t i) { return x[i]; }
-	explicit chunk<char>(const char* str) {
-		size = strlen(str);
-		x = (char*)str;
+	chunk(std::initializer_list<A> a) {
+		a();
 	}
-	chunk(size_t size,char* x) {
+	void zero() {
+		for(u i = 0; i < size; ++i)
+			x[i]= 0;
+	}
+};
+#define mem(t,n)\
+	chunk<t>(n,(t*)__builtin_alloca(n*sizeof(t)+sizeof(size_t)))
+tm<>
+struct chunk<Char> {
+	size_t size;
+	Char* x;
+	Char& operator[](size_t i) { return x[i]; }
+	explicit chunk<Char>(const char* str) {
+		size = strlen(str);
+		x = (Char*)str;
+	}
+	chunk(size_t size,Char* x) {
 		this.size = size;
 		this.x = x;
 	}
 	void write(ostream& a);
 };
+using string = chunk<Char>;
 tm<>
-struct wrap_t<const char*> : chunk<char> {
-	using chunk<char>::chunk; };
-using string = chunk<char>;
+struct wrap_t<const char*> : string {
+	using string::chunk; };

@@ -23,11 +23,11 @@ void int_write_helper(ostream& a,tn std::enable_if<std::is_signed<A>::value,A>::
 	int_write_helper<tn std::make_unsigned<A>::type>(a,tn std::make_unsigned<A>::type(neg?-x:x));
 }
 tm<tn A>
-void Int<A>::write(ostream& a) {
+void Int_base<A>::write(ostream& a) {
 	int_write_helper<A>(a,x);
 }
 tm<tn A>
-Int<A>::Int(istream& a) {
+Int_base<A>::Int_base(istream& a) {
 	// ::write(1,(void*)"read int" nl,9);
 	x=0;
 	for(char c;;) {

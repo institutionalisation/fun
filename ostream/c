@@ -7,7 +7,7 @@ struct ostream : public fstream {
 			exit(77);
 		t = 0;
 	}
-	void put(const char a) {
+	void put(const Char a) {
 		buf.x[t++] = a;
 		if(t==buf.size) flush();
 	}

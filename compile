@@ -1,2 +1,2 @@
 #!/bin/bash
-gcc -fno-enforce-eh-specs -nostartfiles -nostdlib -fno-stack-protector -fno-rtti -fno-exceptions -xc++ -std=c++17 -Os -Wall -Wextra m.cpp -o m "$@"
+gcc -fno-enforce-eh-specs -nostartfiles -nostdlib -fno-stack-protector -fno-rtti -fno-exceptions -fmerge-all-constants -faggressive-loop-optimizations -fauto-inc-dec -fdelete-null-pointer-checks -fira-loop-pressure -ftree-tail-merge -fwhole-program -ffast-math -fno-asynchronous-unwind-tables -fno-unwind-tables -fno-common -Wl,--nmagic -xc++ -std=c++17 -Os -Wall -Wextra -o m m.cpp "$@"

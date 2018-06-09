@@ -3,19 +3,19 @@ struct istream : public fstream {
 	size_t cap=0;
 	bool empty= 0;
 	void flush() {
-		cap= (size_t)syscall(0,fd,(u ll)buf.x,buf.size);
+		cap= (size_t)syscall(0,fd,(ul)buf.x,buf.size);
 		// ::write(1,(void*)"buffer:",7);
 		// ::write(1,buf.x,buf.size);
 		// ::write(1,(void*)"|" nl,2);
 		empty= cap==0;
 		t= 0;
 	}
-	char get() {
-		char a = peek();
+	Char get() {
+		Char a = peek();
 		++t;
 		return a;
 	}
-	char peek() {
+	Char peek() {
 		if(t==cap)
 			flush();
 		if(empty) {
@@ -25,6 +25,8 @@ struct istream : public fstream {
 		return buf[t];
 	}
 	tm<tn ...T>
-	std::tuple<wrap_t<T>...> get() {
-		return std::tuple<wrap_t<T>...>{wrap_t<T>(this)...}; }
+	// std::tuple<wrap_t<T>...> get() {
+	// 	return std::tuple<wrap_t<T>...>{wrap_t<T>(this)...}; }
+	std::tuple<T...> get() {
+		return std::tuple<T...>{ T(this)...}; }
 };
