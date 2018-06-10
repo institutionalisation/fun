@@ -1,4 +1,4 @@
 #!/bin/bash
 # -Wl,--nmagic breaks stuff for some reason
-# gcc -fno-enforce-eh-specs -fno-stack-protector -fno-rtti -fno-exceptions -fmerge-all-constants -faggressive-loop-optimizations -fauto-inc-dec -fdelete-null-pointer-checks -fira-loop-pressure -ftree-tail-merge -fwhole-program -ffast-math -fno-asynchronous-unwind-tables -fno-unwind-tables -Wa,--no-pad-sections -std=c++17 -nostartfiles -nostdlib -Wall -Wextra -ggdb -o m m.cpp
-gcc -fno-stack-protector -fno-rtti -fno-exceptions -std=c++17 -nostartfiles -nostdlib -Wall -Wextra -o m m.cpp
+gcc -fno-enforce-eh-specs -fno-stack-protector -fno-rtti -fno-exceptions -fmerge-all-constants -faggressive-loop-optimizations -fauto-inc-dec -fdelete-null-pointer-checks -fira-loop-pressure -ftree-tail-merge -fwhole-program -ffast-math -fno-asynchronous-unwind-tables -fno-unwind-tables -Wa,--no-pad-sections -std=c++17 -nostartfiles -nostdlib -Wall -Wextra -Os -o m m.cpp
+# gcc -fno-stack-protector -fno-rtti -fno-exceptions -std=c++17 -nostartfiles -nostdlib -Wall -Wextra -ggdb -o m m.cpp

@@ -34,30 +34,10 @@ size_t write(u fd,void* data,size_t nbyte) {
 s brk(void* value) {
 	return (s)syscall(12,(u ll)value);
 }
-static u a= 532423;
-void init_sbrk() {
-	write(1,(void*)"aa" nl,3);
-	u b= a;
-	write(1,(void*)"bb" nl,3);
-	for(;b;b/=10) {
-		char c= b%10+'0';
-		write(1,&c,1);
-	}
-	write(1,(void*)nl,1);
-	// *(void**)0x10000= prog_break;
-}
+u ll prog_break __attribute__((section(".text")))= 22;
 void* sbrk(size_t diff) {
-	// write(1,(void*)"aa" nl,3);
-	// u ll b= (u ll)&a;
-	// for(;b;b/=10) {
-	// 	char c= b%10+'0';
-	// 	write(1,&c,1);
-	// }
-	// write(1,(void*)nl,1);
-	// write(1,(void*)"syscall" nl,8);
-	// // prog_break = (void*)syscall(12,(size_t)prog_break+diff);
-	// write(1,(void*)"done syscall" nl,13);
-	// // return old_break;
+	++prog_break;
+	exit(prog_break);
 }
 void* memcpy(void* dest,const void* src,size_t n) {
 	for(size_t i = 0; i < n; ++i)

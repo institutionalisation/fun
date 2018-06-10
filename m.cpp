@@ -65,7 +65,7 @@ struct istream;
 asm(".globl _start");
 extern "C"
 void _start() {
-	init_sbrk();
+	sbrk(10);
 	istream in(0,40000);
 	ostream out(1,40000);
 	write(1,(void*)"henlo" nl,6);
