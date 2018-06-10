@@ -22,18 +22,9 @@ struct Int<u ll> : public Int_base<u ll> {
 	tm<tn A>
 	Int(A* a): Int_base((u ll)a) {}
 };
-tm<> struct wrap_t<u> : public Int<u> {
-	using Int<u>::Int; };
-tm<> struct wrap_t<s> : public Int<s> {
-	using Int<s>::Int; };
-tm<> struct wrap_t<u ll> : public Int<u ll> {
-	using Int<u ll>::Int; };
-tm<> struct wrap_t<ll> : public Int<ll> {
-	using Int<ll>::Int; };
-tm<> struct wrap_t<u short> : public Int<u short> {
-	using Int<u short>::Int; };
-tm<> struct wrap_t<short> : public Int<short> {
-	using Int<short>::Int; };
+tm<tn A>
+Int<A> wrap(std::enable_if<std::is_integral<A>::value,A> a) {
+	return Int(a); }
 const u U_MAX= 0xffffffff;
 const s S_MAX= 0x7fffffff;
 const s S_MIN= -0x8000000;

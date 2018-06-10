@@ -1,10 +1,11 @@
 struct Char {
 	char x;
 	operator char&() { return x; }
+	Char() {}
 	Char(char a): x(a) {}
 	Char(istream& a);
 	void write(ostream&);
 };
-tm<>
-struct wrap_t<char> : public Char {
-	using Char::Char; };
+// tm<>
+// struct wrap_t<char> : public Char {
+// 	using Char::Char; };

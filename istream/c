@@ -1,9 +1,10 @@
-struct istream : public fstream {
-	using fstream::fstream;
-	size_t cap=0;
-	bool empty= 0;
+struct istream: public fstream {
+	using f= fstream;
+	using f::fstream;
+	u t=0,cap=0;
+	bool empty{};
 	void flush() {
-		cap= (size_t)syscall(0,fd,(ul)buf.x,buf.size);
+		cap= (u)syscall(0,f::fd,(ul)f::buf.x,f::buf.size);
 		// ::write(1,(void*)"buffer:",7);
 		// ::write(1,buf.x,buf.size);
 		// ::write(1,(void*)"|" nl,2);
@@ -22,7 +23,7 @@ struct istream : public fstream {
 			exit(99);
 			return 0;
 		}
-		return buf[t];
+		return f::buf[t];
 	}
 	tm<tn ...T>
 	// std::tuple<wrap_t<T>...> get() {

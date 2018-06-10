@@ -1,0 +1,13 @@
+tm<tn A>
+struct stacked {
+	char mem[sizeof(A)];
+	operator A() { return *(A*)&this; }
+	tm<tn... B>
+	stacked(B... a) {
+		A* addr= sbrk(sizeof(A));
+		new(addr) A(a...);
+	}
+	~stacked() {
+		sbrk(-sizeof(A));
+	}
+};

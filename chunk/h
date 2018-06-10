@@ -2,38 +2,33 @@ tm<tn A>
 struct chunk {
 	u size;
 	A* x;
-	A& operator[](size_t i) {
+	chunk(u size): size(size) {
+		write(1,(void*)"alloc buffer" nl,13);
+		x= (A*)sbrk(size*sizeof(A));
+		write(1,(void*)"done buffer" nl,12);
+	}
+	~chunk() {
+		sbrk(-(s)size); }
+	void resize(u new_size) {
+		sbrk((s)new_size-(s)size);
+		size= new_size;
+	}
+	A& operator[](u i) {
 		return x[i]; }
-	chunk(size_t size,A* x) {
-		this.size = size;
-		this.x = x;
-	}
-	chunk(std::initializer_list<A> a) {
-		a();
-	}
 	void zero() {
-		for(u i = 0; i < size; ++i)
+		for(u i = 0; i<size; ++i)
 			x[i]= 0;
 	}
 };
-#define mem(t,n)\
-	chunk<t>(n,(t*)__builtin_alloca(n*sizeof(t)+sizeof(size_t)))
-tm<>
-struct chunk<Char> {
-	size_t size;
-	Char* x;
-	Char& operator[](size_t i) { return x[i]; }
-	explicit chunk<Char>(const char* str) {
-		size = strlen(str);
-		x = (Char*)str;
+struct string : public chunk<Char> {
+	using c= chunk<Char>;
+	using c::chunk;
+	string(const char* str): chunk(strlen(str)) {
+		for(u i= 0; i<c::size;)
+			c::x[i]= str[i];
 	}
-	chunk(size_t size,Char* x) {
-		this.size = size;
-		this.x = x;
-	}
-	void write(ostream& a);
+	tm<tn os>
+	void write(os& a);
 };
-using string = chunk<Char>;
-tm<>
-struct wrap_t<const char*> : string {
-	using string::chunk; };
+string wrap(const char* a) {
+	return string(a); }

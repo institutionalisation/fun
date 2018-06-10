@@ -18,7 +18,9 @@ u ll syscall(u ll a,u ll b,u ll c=0,u ll d=0,u ll e=0,u ll f=0,u ll g=0) {
 #pragma GCC pop_options
 extern "C"
 void exit(signed code) {
-	syscall(60,code); }
+	syscall(60,code);
+	__builtin_unreachable();
+}
 void abort() {
 	exit(1); }
 void assert(bool a) {
@@ -26,15 +28,36 @@ void assert(bool a) {
 void* mremap(void* old,size_t old_size,size_t new_size,s flags) {
 	return (void*)syscall(25,(u ll)old,(u ll)old_size,(u ll)new_size,(u ll)flags); }
 s open(const char* path, s oflag) {
-	return (s)syscall((u ll)path,(u ll)oflag); }
+	return (s)syscall(2,(u ll)path,(u ll)oflag); }
 size_t write(u fd,void* data,size_t nbyte) {
 	return (size_t)syscall(1,fd,(u ll)data,nbyte); }
-extern char _end;
-void* prog_break = &_end;
-void* sbrk(ll diff) {
-	void* old_break = prog_break;
-	prog_break = (void*)syscall(12,(u ll)prog_break+100000);
-	return old_break;
+s brk(void* value) {
+	return (s)syscall(12,(u ll)value);
+}
+static u a= 532423;
+void init_sbrk() {
+	write(1,(void*)"aa" nl,3);
+	u b= a;
+	write(1,(void*)"bb" nl,3);
+	for(;b;b/=10) {
+		char c= b%10+'0';
+		write(1,&c,1);
+	}
+	write(1,(void*)nl,1);
+	// *(void**)0x10000= prog_break;
+}
+void* sbrk(size_t diff) {
+	// write(1,(void*)"aa" nl,3);
+	// u ll b= (u ll)&a;
+	// for(;b;b/=10) {
+	// 	char c= b%10+'0';
+	// 	write(1,&c,1);
+	// }
+	// write(1,(void*)nl,1);
+	// write(1,(void*)"syscall" nl,8);
+	// // prog_break = (void*)syscall(12,(size_t)prog_break+diff);
+	// write(1,(void*)"done syscall" nl,13);
+	// // return old_break;
 }
 void* memcpy(void* dest,const void* src,size_t n) {
 	for(size_t i = 0; i < n; ++i)

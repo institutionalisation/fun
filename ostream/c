@@ -1,15 +1,17 @@
-struct ostream : public fstream {
-	using fstream::fstream;
+struct ostream: public fstream {
+	using f= fstream;
+	using f::fstream;
+	u t= 0;
 	void flush() {
-		size_t written = write(fd,buf.x,t);
+		u written = (u)write(f::fd,f::buf.x,t);
 		// write(1,(void*)"oflush",7);
 		if(written != t)
 			exit(77);
-		t = 0;
+		t= 0;
 	}
 	void put(const Char a) {
-		buf.x[t++] = a;
-		if(t==buf.size) flush();
+		f::buf.x[t++] = a;
+		if(t==f::buf.size) flush();
 	}
 	tm<tn ...T>
 	void operator()(T... a) {

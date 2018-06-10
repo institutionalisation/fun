@@ -1,4 +1,5 @@
-void chunk<Char>::write(ostream& a) {
+tm<tn os>
+void string::write(os& a) {
 	for(u i = 0; i < size; ++i)
-		a.put(x[i]);
+		a.put(c::x[i]);
 }

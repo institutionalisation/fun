@@ -1,13 +1,16 @@
 tm<tn A>
-struct queue {
-	chunk<A> buf;
-	size_t r=0,t=0;
-	queue(chunk<A> a): buf(buf) {}
+struct queue: public chunk<A> {
+	using c= chunk<A>;
+	using c::chunk;
+	u r=0,t=0;
 	void push(A a) {
-		buf[t++]= a;
-		if(buf.size<t)
+		c::x[t++]= a;
+		if(c::size<t)
 			t=0;
 	}
 	A pop() {
-		return buf[buf.size<r++ ? r=0: r];}
+		A& a= c::x[r];
+		if(++r < c::size)
+			r=0;
+		return c::x[c::size<r++ ? r=0: r];}
 };
