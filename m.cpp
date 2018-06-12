@@ -10,14 +10,13 @@
 #define this (*this)
 #define ns namespace
 
-#include"base/c"
 struct ostream;
 struct istream;
+#include"base/c"
 #include"int/h"
 #include"char/h"
 #include"chunk/h"
 
-#include"stacked/c"
 
 #include"fstream/c"
 #include"ostream/c"
@@ -65,10 +64,12 @@ struct istream;
 asm(".globl _start");
 extern "C"
 void _start() {
-	sbrk(10);
+	mem_init();
 	istream in(0,40000);
 	ostream out(1,40000);
-	write(1,(void*)"henlo" nl,6);
+	out("Hello, World!" nl);
+	out.flush();
+	//write(1,(void*)"henlo" nl,6);
 	//out("test" nl);
 	// out("check" nl); out.flush(); exit(0);
 	// auto[n,m,j]= in.get<u,u,u>();

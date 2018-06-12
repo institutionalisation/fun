@@ -24,6 +24,7 @@ void int_write_helper(ostream& a,tn std::enable_if<std::is_signed<A>::value,A>::
 }
 tm<tn A>
 void Int_base<A>::write(ostream& a) {
+	write(1,(void*)"dd" nl,3);
 	int_write_helper<A>(a,x);
 }
 tm<tn A>

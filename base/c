@@ -1,18 +1,19 @@
-//using size_t = u ll;
+//using size_t = ul;
 #pragma GCC push_options
 #pragma GCC optimize("O0")
-u ll syscall(u ll a,u ll b,u ll c=0,u ll d=0,u ll e=0,u ll f=0,u ll g=0) {
-	register u ll _a asm("rax") = a;
-	register u ll _b asm("rdi") = b;
-	register u ll _c asm("rsi") = c;
-	register u ll _d asm("rdx") = d;
-	register u ll _e asm("r10") = e;
-	register u ll _f asm("r8") = f;
-	register u ll _g asm("r9") = g;
+#define ul unsigned long
+ul syscall(ul a,ul b,ul c=0,ul d=0,ul e=0,ul f=0,ul g=0) {
+	register ul _a asm("rax") = a;
+	register ul _b asm("rdi") = b;
+	register ul _c asm("rsi") = c;
+	register ul _d asm("rdx") = d;
+	register ul _e asm("r10") = e;
+	register ul _f asm("r8") = f;
+	register ul _g asm("r9") = g;
 	asm volatile("syscall\n"
 		:::
 		"rcx","r11");
-	register u ll h asm("eax");
+	register ul h asm("eax");
 	return h;
 }
 #pragma GCC pop_options
@@ -26,18 +27,37 @@ void abort() {
 void assert(bool a) {
 	if(!a) abort(); }
 void* mremap(void* old,size_t old_size,size_t new_size,s flags) {
-	return (void*)syscall(25,(u ll)old,(u ll)old_size,(u ll)new_size,(u ll)flags); }
+	return (void*)syscall(25,(ul)old,(ul)old_size,(ul)new_size,(ul)flags); }
+
+#include"../linux/h"
+
 s open(const char* path, s oflag) {
-	return (s)syscall(2,(u ll)path,(u ll)oflag); }
+	return (s)syscall(2,(ul)path,(ul)oflag); }
+s close(s fd) {
+	return (s)syscall(3,fd); }
 size_t write(u fd,void* data,size_t nbyte) {
-	return (size_t)syscall(1,fd,(u ll)data,nbyte); }
+	return (size_t)syscall(1,fd,(ul)data,nbyte); }
 s brk(void* value) {
-	return (s)syscall(12,(u ll)value);
+	return (s)syscall(12,(ul)value); }
+void* mmap(void* addr,size_t len,s prot,s flags,s fildes,size_t off) {
+	return (void*)syscall(9,(ul)addr,(ul)len,(ul)prot,(ul)flags,(ul)fildes,(ul)off); }
+
+#define txt __attribute__((section(".text")))
+static void
+*	aux_stack_start txt,
+*	aux_stack_end txt;
+void mem_init() {
+	size_t size = 0x100000;
+    void* aux_stack_start = mmap(0,size,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
+	for(u i= 0;i<0x100;++i)
+		((u*)aux_stack_start)[i] = 9;
+	aux_stack_end= aux_stack_start;
+	//exit(44);
 }
-u ll prog_break __attribute__((section(".text")))= 22;
-void* sbrk(size_t diff) {
-	++prog_break;
-	exit(prog_break);
+void* salloc(ll diff) {
+	void* old= aux_stack_end;
+	aux_stack_end+= diff;
+	return old;
 }
 void* memcpy(void* dest,const void* src,size_t n) {
 	for(size_t i = 0; i < n; ++i)
@@ -58,4 +78,5 @@ tm<tn T,tn=decltype(T()<T())>
 T& min(T& a,T& b) {
 	return a<b ? a:b; }
 extern "C"
-void __cxa_pure_virtual() { abort(); } 
+void __cxa_pure_virtual() { abort(); }
+#define ul

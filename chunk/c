@@ -1,5 +1,4 @@
-tm<tn os>
-void string::write(os& a) {
+void string::write(ostream& a) {
 	for(u i = 0; i < size; ++i)
 		a.put(c::x[i]);
 }

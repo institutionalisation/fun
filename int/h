@@ -23,8 +23,8 @@ struct Int<u ll> : public Int_base<u ll> {
 	Int(A* a): Int_base((u ll)a) {}
 };
 tm<tn A>
-Int<A> wrap(std::enable_if<std::is_integral<A>::value,A> a) {
-	return Int(a); }
+tn std::enable_if<std::is_integral<A>::value,Int<A>>::type wrap(A a) {
+	return Int<A>(a); }
 const u U_MAX= 0xffffffff;
 const s S_MAX= 0x7fffffff;
 const s S_MIN= -0x8000000;

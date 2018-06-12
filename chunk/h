@@ -3,14 +3,11 @@ struct chunk {
 	u size;
 	A* x;
 	chunk(u size): size(size) {
-		write(1,(void*)"alloc buffer" nl,13);
-		x= (A*)sbrk(size*sizeof(A));
-		write(1,(void*)"done buffer" nl,12);
-	}
+		x= (A*)salloc(size*sizeof(A)); }
 	~chunk() {
-		sbrk(-(s)size); }
+		salloc(-(s)size); }
 	void resize(u new_size) {
-		sbrk((s)new_size-(s)size);
+		salloc(((s)new_size-(s)size)*sizeof(A));
 		size= new_size;
 	}
 	A& operator[](u i) {
@@ -24,11 +21,10 @@ struct string : public chunk<Char> {
 	using c= chunk<Char>;
 	using c::chunk;
 	string(const char* str): chunk(strlen(str)) {
-		for(u i= 0; i<c::size;)
+		for(u i= 0; i<c::size;++i)
 			c::x[i]= str[i];
 	}
-	tm<tn os>
-	void write(os& a);
+	void write(ostream& a);
 };
 string wrap(const char* a) {
 	return string(a); }

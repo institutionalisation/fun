@@ -4,7 +4,6 @@ struct ostream: public fstream {
 	u t= 0;
 	void flush() {
 		u written = (u)write(f::fd,f::buf.x,t);
-		// write(1,(void*)"oflush",7);
 		if(written != t)
 			exit(77);
 		t= 0;
@@ -15,5 +14,6 @@ struct ostream: public fstream {
 	}
 	tm<tn ...T>
 	void operator()(T... a) {
-		(s[]){ (wrap(a).write(this),0)... }; }
+		(s[]){ (wrap(a).write(this),0)... };
+	}
 };

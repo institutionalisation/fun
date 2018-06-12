@@ -1,7 +1,7 @@
 #!/bin/python
 from subprocess import call,check_output
 call(['./compile'])
-call(['strip','-x','m'])
+call(['strip','-s','m'])
 for s in ('.dynamic','.rela.dyn','.dynsym','.interp','.bss','.dynstr','.note.gnu.build-id','.eh_frame','.eh_frame_hdr','.gnu.hash','.comment'):
 	call(['strip','-R',s,'m'])
 with open('m.s','w') as f:
